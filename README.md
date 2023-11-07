@@ -18,6 +18,7 @@
  - cros-env installed
  - have mongodb installed and running locally (https://www.mongodb.com/)
    - Using Windows, just open the terminal at where you installed mongo and run `mongod.exe`
+ - NOTE: Please give your mongodb connection url in /.env-dev file as MongoDBAtlas has some ristrictions to connect from mutiple networks.
  - run npm install in your root project folder
  - run npm install nodemon in your root project folder
  - run npm install express in your root project folder. Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.Reference URL:(https://expressjs.com/)
