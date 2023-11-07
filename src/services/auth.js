@@ -126,7 +126,7 @@ const getAllUsers = (req, res) => {
               previous_page: page - 1 > 0 ? page - 1 : undefined,
               last_page: Math.ceil(result.totalCount / limit),
               next_page: result.totalCount > limit * page ? page + 1 : undefined,
-              coupons: result.docs,
+              users: result.docs,
           });
       })
       .catch((err) => {
