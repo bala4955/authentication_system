@@ -15,6 +15,7 @@
 - Please make sure that you have:
  - node.js installed (https://nodejs.org/)
  - npm installed
+ - cros-env installed
  - have mongodb installed and running locally (https://www.mongodb.com/)
    - Using Windows, just open the terminal at where you installed mongo and run `mongod.exe`
  - run npm install in your root project folder
