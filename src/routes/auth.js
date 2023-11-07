@@ -21,12 +21,12 @@ router.post("/auth/register", trimRequest.all, validateRegister, AuthService.reg
 router.post("/auth/login", trimRequest.all, validateLogin, AuthService.login);
 
 /*
- * Login route
+ * Update User route
  */
 router.put("/:userId", trimRequest.all, requireAuth, roleAuthorization(), AuthService.updateUser);
 
 /*
- * Get All Users
+ * Get All Users route
  */
 router.get("/", trimRequest.all, requireAuth, AuthService.getAllUsers);
 

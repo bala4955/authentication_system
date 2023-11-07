@@ -50,6 +50,11 @@ exports.getCouponById = (id) => {
     let condition = { _id: id };
     Coupon
       .find(condition)
+      .populate({
+        path: "created_by",
+        model: users.model,
+        select: "name email",
+      })
       .select("-__v")
       .exec()
       .then((doc) => {

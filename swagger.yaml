@@ -489,6 +489,31 @@ paths:
                     properties:
                       msg:
                         type: string
+  /coupon/{couponId}:
+    get:
+      tags:
+        - Coupon
+      summary: Get coupon by its Id
+      description: |
+        Use to fetch a single coupons with id
+      operationId: single-coupon-list
+      security:
+        - APITokenHeader: []
+      parameters:
+        - name: couponId
+          in: path
+          required: true
+          schema:
+            type: string
+            description: "ObjectId of user record Ex: 6549d59a50e3824fa418c39d"
+      responses:
+        "200":
+          description: A successful response
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+    
   /coupon/mycoupons:
     get:
       tags:

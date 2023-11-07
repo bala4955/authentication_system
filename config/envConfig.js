@@ -1,5 +1,6 @@
 const path = require("path");
 
+//Configuring environment vairiables
 exports.config = () => {
   const environment = "development";
   let envPath = "./env/.env-dev";

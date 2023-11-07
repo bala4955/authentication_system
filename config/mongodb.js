@@ -2,8 +2,10 @@
 const mongoose = require("mongoose");
 mongoose.set("debug", false);
 let count = 0;
-let db_url = process.env.MONGO_URI;
+let db_url = process.env.MONGO_URI; // Mongo DB URL fetching from env file
 const options = {};
+
+//Conneting to MongoDB
 const connectWithRetry = () => {
   console.log("MongoDB Connecting.... ", db_url);
   mongoose
@@ -16,7 +18,7 @@ const connectWithRetry = () => {
         "MongoDB connection unsuccessful, retry after 5 seconds. ",
         ++count
       );
-      console.log("MongoDB connection with retry");
+      console.log("MongoDB connection with retry"); // retrying connection
       setTimeout(connectWithRetry, 5000);
     });
 };

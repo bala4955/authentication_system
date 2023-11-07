@@ -2,6 +2,7 @@ const { CouponORM } = require("../orm");
 const CODE = require("../utils/httpResponseCode");
 const { hideCoupons } = require("../utils/commonFunctions")
 const _ = require("lodash");
+const mongoose = require("mongoose");
 
 // Get all coupons
 exports.getAllCoupons = (req, res) => {
@@ -124,13 +125,15 @@ exports.getCouponDetails = (req, res) => {
         ) {
             return res.status(CODE.NOT_FOUND).json({ message: MESSAGE.INVALID_VALUE });
         }
-        const id = mongoose.Types.ObjectId(req.params.couponId);
+        const id = new mongoose.Types.ObjectId(req.params.couponId);
         CouponORM.getCouponById(id)
         .then(async (doc) => {
             if (!_.isEmpty(doc)) {
                 if(doc && doc.length > 0){
                     if(req.user.role !== "admin"){
-                        doc = await hideCoupons(doc)
+                        if((doc[0].created_by._id).toString() != req.user._id.toString()){
+                            doc = await hideCoupons(doc)
+                        }
                     }
                 }
                 res.status(CODE.EVERYTHING_IS_OK).json(doc);
@@ -144,6 +147,7 @@ exports.getCouponDetails = (req, res) => {
             res.status(CODE.INTERNAL_SERVER_ERROR).json({ error: err.message });
         });
     } catch (error) {
+        console.log(error)
         return res.status(200).send({err: error, message: `Something Went wrong in API`});
     }
 };

@@ -31,7 +31,7 @@ router.get("/:couponId", [
   CouponService.getCouponDetails,
 ]);
 
-// update role details by Id
+// update coupon details by Id
 router.put("/:couponId", [
   requireAuth,
   roleAuthorization(),
