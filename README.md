@@ -3,6 +3,7 @@
   - Used NodeJs as a Backend tech and MongoDB Database
   - Used passport & JWT for Authentication
   - Storing Hashed Passwords in DB 
+  - Preventing NoSQL injection with mongo-sanitize
   - Connected to Atlas MongoDB free trail.
   - Used Swagger for API Documentation. 
   - Showing the information based on roles.
