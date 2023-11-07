@@ -85,8 +85,13 @@ exports.getCouponDetails = (req, res) => {
         }
         const id = mongoose.Types.ObjectId(req.params.couponId);
         CouponORM.getCouponById(id)
-        .then((doc) => {
+        .then(async (doc) => {
             if (!_.isEmpty(doc)) {
+                if(doc && doc.length > 0){
+                    if(req.user.role !== "admin"){
+                        doc = await hideCoupons(doc)
+                    }
+                }
                 res.status(CODE.EVERYTHING_IS_OK).json(doc);
             } else {
                 res

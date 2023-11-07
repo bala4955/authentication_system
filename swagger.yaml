@@ -1,0 +1,441 @@
+openapi: 3.1.0
+info:
+  title: Authentication System API
+  description: Auth System API
+  version: 1.0.0
+servers:
+  - url: /api/
+paths:
+  /user/auth/login/:
+    post:
+      tags:
+        - "Auth"
+      summary: "Login User"
+      operationId: "LoginUser"
+      requestBody:
+        description: Object that needs to be added to  login
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+        required: true
+      responses:
+        '200':
+          description: User details with jwt token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  userData:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                      _id:
+                        type: string
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      role:
+                        type: string
+        '403':
+          description: Login Errors - Forbidden Wrong password 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
+        '404':
+          description: Login Errors -  User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
+  /user/auth/register/:
+    post:
+      tags:
+        - "Auth"
+      summary: "Register User"
+      operationId: "RegisterUser"
+      requestBody:
+        description: Object that needs to be added to register
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                name:
+                  type: string
+                password:
+                  type: string
+                role:
+                  type: string
+              required:
+                - email
+                - password
+                - role
+                - name
+        required: true
+      responses:
+        '201':
+          description: User details and jwt token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  userData:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                      _id:
+                        type: string
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      role:
+                        type: string
+        '404':
+          description: Register Errors -  User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
+  /user/{userId}/:
+    put:
+      tags:
+        - "User"
+      summary: "Register User, Only Admin Users can edit the user details"
+      operationId: "UpdateUser"
+      security:
+        - APITokenHeader: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            description: "ObjectId of user record Ex: 6549d59a50e3824fa418c39d"
+      requestBody:
+        description: Only name and role can be editable for now, Object that needs to be added to update user
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                role:
+                  type: string
+              required:
+                - role
+                - name
+        required: true
+      responses:
+        '200':
+          description: update user details successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: User Update Errors - Bad Request - invalid user id 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: User update Errors - User Not found 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
+        '500':
+          description: User update Errors - Internal server error 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
+  /coupon/:
+    get:
+      tags:
+        - Coupon
+      summary: List coupon
+      description: |
+        Use to fetch all the coupons with pagination
+      operationId: coupon-list
+      security:
+        - APITokenHeader: []
+      parameters:
+        - name: page
+          in: query
+          description: |
+            Current Page
+
+            Default value is 1
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          description: |
+            Documents per page
+
+            Default value is 10
+          schema:
+            type: integer
+            default: 10
+        - name: sortBy
+          in: query
+          description: |
+            Available options : all arguments
+
+            Default value 'modified_on'
+          schema:
+            type: string
+        - name: orderBy
+          in: query
+          description: |
+            Available options 'asc' and 'desc'
+
+            Default value 'asc'
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+      responses:
+        "200":
+          description: A successful response
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+    post:
+      tags:
+        - Coupon
+      summary: Create coupon
+      operationId: coupon-create
+      requestBody:
+        description: Object that needs to be added to coupon
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                code:
+                  type: string
+              required:
+                - name
+                - code
+      responses:
+        '201':
+          description: Coupon details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  userData:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      name:
+                        type: string
+                      code:
+                        type: string
+                      created_by:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          email:
+                            type: string
+                          _id:
+                            type: string
+        '400':
+          description: Coupon add Errors - Bad Request - invalid arguments 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Coupon add Errors - User Not found 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
+        '500':
+          description: Coupon add Errors - Internal server error 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
+    put:
+      tags:
+        - Coupon
+      summary: Update coupon
+      operationId: update-create
+      requestBody:
+        description: Object that needs to be update coupon
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                code:
+                  type: string
+              required:
+                - name
+                - code
+      responses:
+        '200':
+          description: Update coupon successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Coupon Update Errors - Bad Request - invalid coupon id 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Coupon update Errors - coupon Not found 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
+        '500':
+          description: Coupon update Errors - Internal server error 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
+  components:
+  securitySchemes:
+    APITokenHeader:
+      type: apiKey
+      description: |
+        Bearer \<token\>
+        <br/>
+      name: Authorization
+      in: header

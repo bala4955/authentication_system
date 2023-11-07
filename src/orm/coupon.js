@@ -53,7 +53,7 @@ exports.getCouponById = (id) => {
       .select("-__v")
       .exec()
       .then((doc) => {
-        resolve(doc[0]);
+        resolve(doc);
       })
       .catch((err) => {
         reject(err);

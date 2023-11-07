@@ -4,6 +4,8 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const health = require("./src/utils/health");
 const mongoSanitize = require("express-mongo-sanitize");
+const swagger = require("./swagger");
+const swaggerUi = require("swagger-ui-express");
 
 const app = express();
 
@@ -45,6 +47,8 @@ app.use("/api/coupon", require("./src/routes/coupon"));
 
 app.use("/api/health-check", health.check);
 
+// Swagger set up
+app.use("/api-docs/", swagger.authenticationSystem, swaggerUi.serve, swaggerUi.setup());
 
 const port = 3000;
 app.listen(port, (err) => {

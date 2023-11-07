@@ -51,7 +51,7 @@ const login = async (req, res) => {
       } else {
         delete user.password;
         const response = await returnUserToken(req, user);
-        res.status(200).json({message: "User Successfully Logged In!", userData: {
+        res.status(CODE.EVERYTHING_IS_OK).json({message: "User Successfully Logged In!", userData: {
           token: response.token,
           _id: response.user._id,
           name: response.user.name,
@@ -80,7 +80,6 @@ const updateUser = async (req, res) => {
 			  message: "Invalid User Id"
 			});
 		}
-    const data = matchedData(req);
     const userId = req.params.userId;
     const user = await findUserById(userId);
     if(user){ 

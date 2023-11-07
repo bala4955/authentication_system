@@ -8,20 +8,21 @@ const passport = require("passport");
 const requireAuth = passport.authenticate(["jwt"], {
   session: false,
 });
+const { roleAuthorization } = require("../middlewares/roleAuthorization");
 
 /*
  * Register route
  */
-router.post("/register", trimRequest.all, validateRegister, AuthService.register);
+router.post("/auth/register", trimRequest.all, validateRegister, AuthService.register);
 
 /*
  * Login route
  */
-router.post("/login", trimRequest.all, validateLogin, AuthService.login);
+router.post("/auth/login", trimRequest.all, validateLogin, AuthService.login);
 
 /*
  * Login route
  */
-router.put("/:userId", trimRequest.all, requireAuth, AuthService.updateUser);
+router.put("/:userId", trimRequest.all, requireAuth, roleAuthorization(), AuthService.updateUser);
 
 module.exports = router;

@@ -36,7 +36,9 @@
     "nodemon": "^3.0.1",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
+    "swagger-ui-express": "^5.0.0",
     "trim-request": "^1.0.6",
-    "validator": "^13.11.0"
+    "validator": "^13.11.0",
+    "yamljs": "^0.3.0"
   }
 }
