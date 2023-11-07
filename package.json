@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/bala4955/authentication_system.git"
   },
-  "keywords": [],
+  "keywords": ["authentication_system"],
   "author": "Balanarsimha Rao Tanneeru",
   "license": "ISC",
   "bugs": {
