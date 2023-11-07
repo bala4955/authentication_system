@@ -97,4 +97,45 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { login, register, updateUser };
+// Get all coupons
+const getAllUsers = (req, res) => {
+  try {
+      let query = {};
+      let sort = {};
+      // declare pagination variables
+      const limit =
+      req.query.limit !== undefined && parseInt(req.query.limit) > 0
+          ? parseInt(req.query.limit)
+          : 10;
+      const page =
+      req.query.page !== undefined && parseInt(req.query.page) > 0
+          ? parseInt(req.query.page)
+          : 1;
+      
+      if (req.query.sortBy !== undefined && req.query.orderBy !== undefined) {
+          sort[req.query.sortBy] = req.query.orderBy === "desc" ? -1 : 1;
+      } else {
+          sort.modified_on = -1;
+      }
+      UserORM.gettAllUsers(query, limit, page, sort)
+      .then(async(result) => {
+          res.status(CODE.EVERYTHING_IS_OK).json({
+              current_page: page,
+              total_record: result.totalCount,
+              per_page: limit,
+              previous_page: page - 1 > 0 ? page - 1 : undefined,
+              last_page: Math.ceil(result.totalCount / limit),
+              next_page: result.totalCount > limit * page ? page + 1 : undefined,
+              coupons: result.docs,
+          });
+      })
+      .catch((err) => {
+          res.status(CODE.INTERNAL_SERVER_ERROR).json({ error: err.message });
+      });
+  } catch (error) {
+    console.log(error)
+      return res.status(CODE.INTERNAL_SERVER_ERROR).send({err: error, message: `Something Went wrong in API`});
+  }
+};
+
+module.exports = { login, register, updateUser, getAllUsers };

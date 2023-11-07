@@ -13,10 +13,15 @@ router.get("/", [
   CouponService.getAllCoupons,
 ]);
 
+// get all coupons
+router.get("/mycoupons", [
+  requireAuth,
+  CouponService.getAllLoggedInUserCoupons,
+]);
+
 // Create coupon api
 router.post("/", [
   requireAuth,
-  roleAuthorization(),
   CouponService.createCoupon,
 ]);
 

@@ -25,4 +25,9 @@ router.post("/auth/login", trimRequest.all, validateLogin, AuthService.login);
  */
 router.put("/:userId", trimRequest.all, requireAuth, roleAuthorization(), AuthService.updateUser);
 
+/*
+ * Get All Users
+ */
+router.get("/", trimRequest.all, requireAuth, AuthService.getAllUsers);
+
 module.exports = router;

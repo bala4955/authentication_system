@@ -160,6 +160,61 @@ paths:
                     properties:
                       msg:
                         type: string
+  /user/:
+    get:
+      tags:
+        - User
+      summary: List users
+      description: |
+        Use to fetch all the users with pagination
+      operationId: user-list
+      security:
+        - APITokenHeader: []
+      parameters:
+        - name: page
+          in: query
+          description: |
+            Current Page
+
+            Default value is 1
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          description: |
+            Documents per page
+
+            Default value is 10
+          schema:
+            type: integer
+            default: 10
+        - name: sortBy
+          in: query
+          description: |
+            Available options : all arguments
+
+            Default value 'modified_on'
+          schema:
+            type: string
+        - name: orderBy
+          in: query
+          description: |
+            Available options 'asc' and 'desc'
+
+            Default value 'asc'
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+      responses:
+        "200":
+          description: A successful response
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
   /user/{userId}/:
     put:
       tags:
@@ -293,6 +348,8 @@ paths:
         - Coupon
       summary: Create coupon
       operationId: coupon-create
+      security:
+        - APITokenHeader: []
       requestBody:
         description: Object that needs to be added to coupon
         content:
@@ -373,6 +430,8 @@ paths:
         - Coupon
       summary: Update coupon
       operationId: update-create
+      security:
+        - APITokenHeader: []
       requestBody:
         description: Object that needs to be update coupon
         content:
@@ -430,7 +489,62 @@ paths:
                     properties:
                       msg:
                         type: string
-  components:
+  /coupon/mycoupons:
+    get:
+      tags:
+        - Coupon
+      summary: List coupon, which are created by loggedin user
+      description: |
+        Use to fetch all the coupons with pagination
+      operationId: coupon-list-loggedin-user
+      security:
+        - APITokenHeader: []
+      parameters:
+        - name: page
+          in: query
+          description: |
+            Current Page
+
+            Default value is 1
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          description: |
+            Documents per page
+
+            Default value is 10
+          schema:
+            type: integer
+            default: 10
+        - name: sortBy
+          in: query
+          description: |
+            Available options : all arguments
+
+            Default value 'modified_on'
+          schema:
+            type: string
+        - name: orderBy
+          in: query
+          description: |
+            Available options 'asc' and 'desc'
+
+            Default value 'asc'
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+      responses:
+        "200":
+          description: A successful response
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+components:
   securitySchemes:
     APITokenHeader:
       type: apiKey

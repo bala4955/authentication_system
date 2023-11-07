@@ -47,4 +47,28 @@ const updateUser = (id='', req = {}) => {
   });
 }
 
-module.exports = { registerUser, updateUser }
+
+// Get all users with filter
+const gettAllUsers = (query, limit, page, sort) => {
+  return new Promise((resolve, reject) => {
+    User.find(query)
+      .sort(sort)
+      .skip(limit * page - limit)
+      .limit(limit)
+      .exec()
+      .then((docs) => {
+        User.countDocuments(query)
+          .then((totalCount) => {
+            resolve({ docs: docs, totalCount: totalCount });
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+
+module.exports = { registerUser, updateUser, gettAllUsers }

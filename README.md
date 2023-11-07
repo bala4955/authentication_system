@@ -1,3 +1,14 @@
+## Application Details
+  - This is a completely API based backed application, We don't have a UI/Frontend, Need to trigger backend APIs for using this application.
+  - Used NodeJs as a Backend tech and MongoDB Database
+  - Used passport & JWT for Authentication
+  - Storing Hashed Passwords in DB 
+  - Connected to Atlas MongoDB free trail.
+  - Used Swagger for API Documentation. 
+  - Showing the information based on roles.
+  - Only admin users can access create and update the entities
+  - Used a Couopn Module for showing protected data after login
+
 ## Before using
 
 - Please make sure that you have:
@@ -26,5 +37,19 @@ It will run the server at port 3000.
 *Swagger URL*
 - V1: http://localhost:3000/api-docs/
 
+## Project Usecases
 
-- Update
+ - Users can register into the system by providing name, email, role and password.
+    - Adding validation for "role" field, only "admin" and "normal" values are alloweds
+    - Email should be unique
+    - All the above mentioned fields are mandatory
+ - Users can login into the system by providing email and password.
+ - Users who are having "admin" role can edit the user details like name and role by providing "user_id" in params and jwt token in headers and name/admin values in payload
+ - Users who are having admins can create coupons by providing name and code
+    - Both details (name, code) are mandatory
+    - Unique code validation applied
+    - coupons's "code" length must be 10 characters
+- Users can view all the available coupons with pagination
+- Only Admin Users can view allcoupon code
+- Users can see their own coupons with /mycoupons endpoint, when they hit get all coupon list can't see the coupons code its masked
+- Only Admins Users can edit the coupons
