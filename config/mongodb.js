@@ -18,6 +18,7 @@ const connectWithRetry = () => {
         "MongoDB connection unsuccessful, retry after 5 seconds. ",
         ++count
       );
+      console.log(err);
       console.log("MongoDB connection with retry"); // retrying connection
       setTimeout(connectWithRetry, 5000);
     });

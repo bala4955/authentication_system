@@ -425,6 +425,7 @@ paths:
                     properties:
                       msg:
                         type: string
+  /coupon/{couponId}:
     put:
       tags:
         - Coupon
@@ -432,6 +433,13 @@ paths:
       operationId: update-create
       security:
         - APITokenHeader: []
+      parameters:
+        - name: couponId
+          in: path
+          required: true
+          schema:
+            type: string
+            description: "ObjectId of user record Ex: 6549d59a50e3824fa418c39d"
       requestBody:
         description: Object that needs to be update coupon
         content:
@@ -489,7 +497,6 @@ paths:
                     properties:
                       msg:
                         type: string
-  /coupon/{couponId}:
     get:
       tags:
         - Coupon
@@ -512,8 +519,7 @@ paths:
           content: {}
         "400":
           description: Bad Request
-          content: {}
-    
+          content: {}  
   /coupon/mycoupons:
     get:
       tags:
